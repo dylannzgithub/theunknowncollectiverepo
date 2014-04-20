@@ -71,7 +71,9 @@
     {{ 'jquery.fancybox-1.3.4.pack.js' | asset_url | script_tag }}
 <script>
 Shopify.money_format = '{{shop.money_format | replace: "'", '"'}}';
+  
 </script>
+  
     {{ 'main.js' | asset_url | script_tag }}
 
 {% comment %} THESE STYLES NEED TO BE IN A TEMPLATE {% endcomment %}
@@ -90,133 +92,64 @@ Shopify.money_format = '{{shop.money_format | replace: "'", '"'}}';
   }
   {% endif %}
 </style>
-
+  
+  
     {{ content_for_header }}
   
-  <style type="text/css">
-div#helpSearch {
+<style type="text/css">
+div#overlay {
 	display: none;
 	z-index: 10;
-	position: absolute;
-      background: white;
-	top: 50px;
+	background-color: black;
+    background: rgba(25, 25, 25, .5);
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0px;
 	left: 0px;
 	text-align: center;
-    max-width: 200px;
-    border: 2px solid red;
-    background: white;
-    font-size:75%;
 }
-    
-div#helpNavBar {
-	display: none;
+div#specialBox {
+	display: block;
+	position: relative;
 	z-index: 11;
-	width: 100%;
-    position: absolute;
-	text-align: center;
-  
+	margin: 75px auto 0px auto;
+	max-width: 1200px; 
+	max-height: 620px;
+    overflow:scroll;
 }
-    
-    div.navHelp{
-      display:inline-block; 
-      max-width: 125px;
-      border: 2px solid red;
-      background: white;
-      font-size:75%;
-    }
-    
-div#helpCart {
-	display: none;
-	z-index: 10;
-	position: absolute;
-      background: white;
-	top: 50px;
-	right: 0px;
-	text-align: center;
-    max-width: 200px;
-    border: 2px solid red;
-    background: white;
-    font-size:75%;
-}
-    
-	#openHelp{
-      position: fixed;
-      display:block;
-      z-index: 10;
-    }
-    
-	#closeHelp{
-      position: fixed;
-      display:none;
-      z-index: 10;
-    }
-    
-    
+
 </style>
 <script type="text/javascript">
 function toggleOverlay(){
-	var helpSearch = document.getElementById('helpSearch');
-	var helpCart = document.getElementById('helpCart');
-  	var helpNavBar = document.getElementById('helpNavBar');
-  	var openHelp = document.getElementById('openHelp');
-  	var closeHelp = document.getElementById('closeHelp');
-  	var helpNavBar = document.getElementById('helpNavBar');
-	helpSearch.style.opacity = .8;
-  	helpNavBar.style.opacity = .8;
-  	helpCart.style.opacity = .8;
-	if(helpSearch.style.display == "block"){
-		helpSearch.style.display = "none";
-      	helpCart.style.display = "none";
-      	helpNavBar.style.display = "none";
-      	openHelp.style.display = "block";
-      	closeHelp.style.display = "none";
-      	
+	var overlay = document.getElementById('overlay');
+	
+	if(overlay.style.display == "block"){
+		overlay.style.display = "none";
 	} else {
-		helpSearch.style.display = "block";
-      	helpCart.style.display = "block";
-      	helpNavBar.style.display = "block";
-      	openHelp.style.display = "none";
-      	closeHelp.style.display = "block";
-      	
+		overlay.style.display = "block";
 	}
-  	
 }
-</script>
-  
-  <script type="text/javascript">
-$(function() {
-    if ($.cookie('mycookie')) {
-        // it hasn't been three days yet
-    } else {
-
-        // set cookie to expire in 3 days
-        $.cookie('mycookie', 'true', { expires: 3}); /* MOVED HERE */
-
-        $.fancybox(
-            '<h2>Hi!</h2><p>Lorem ipsum dolor</p>',
-            {
-                'autoDimensions'    : false,
-                'width'             : 350,
-                'height'            : 'auto',
-                'transitionIn'      : 'none',
-                'transitionOut'     : 'none'
-            }
-        );
-    }
-});
 </script>
   
 </head>
 
 <body class="template-{{ template | split: '.' | first }}">
-  
-  
   <div id="pageheader">
-    	<button id="openHelp" onmousedown="toggleOverlay()">Help</button>
-  		<button id="closeHelp" onmousedown="toggleOverlay()">Close Help</button>
-        
+    
+    <!-- Start Overlay -->
+    	<div id="overlay">
+          	<button onmousedown="toggleOverlay()" style="position: fixed; top: 30px; right:5px;">Close</button>
+  			<div id="specialBox">
+              <img src="{{ 'HelpOverLay1.png' | asset_url }}"/>             
+              <img src="{{ 'HelpBuying.png' | asset_url }}"/>  
+              <img src="{{ 'HelpCart.png' | asset_url }}"/>             
+              <br/>
+  			</div>
+		</div>
+	<!-- End Overlay -->    
+    
     	
-        
     
         <div class="logo-area logo-pos-{{ settings.logo_pos }} cf">
             {% capture logo_html %}
@@ -230,7 +163,9 @@ $(function() {
                 </a>
             </div><!-- /#logo -->
             {% endcapture %}
+            
             {% unless settings.logo_pos == 'below' %}{{ logo_html }}{% endunless %}
+            
             <div class="util-area">
                 <div class="search-box elegant-input">
                   {% if settings.header_signup_show %}
@@ -240,17 +175,10 @@ $(function() {
                   </div>
                   {% endif %}
                   
-                  
-                  
-                  
                   <form class="search-form" action="/search" method="get">
                     <i></i>
                     <input type="text" name="q" placeholder="{{ settings.text_search }}"/>
                     <input type="submit" value="&rarr;" />
-                    <div id="helpSearch">
-                      <h6 style="margin:0%; padding: 0%;">Search Bar</h6>
-                          Use this search through our products.
-        			</div>
                   </form>
                 </div>
                 
@@ -264,28 +192,17 @@ $(function() {
                     <div class="cart-summary">
                         <a href="/{% if template != 'cart' %}cart{% else %}checkout{% endif %}" class="cart-count {% if settings.use_btn_style_cart_link %}button{% endif %}">
                             {{ settings.text_cart }} ({{ cart.item_count }})
-                          	
                         </a>
-                      	
+                      
                       {% include 'currencies-switcher' %}
-                      <div id="helpCart">
-                      			<h6 style="margin:0%; padding: 0%;">Cart</h6>
-                      <p style="margin: 0%; line-height:120%; text-transform:none;"> 
-                            This shows you how many items you have picked to buy. It will also lead you to Cart page to you view your items in detail.
-                      </p>
-        			</div>
                     </div>
-                  	
                 </div><!-- /.utils -->
-              
             </div><!-- /.util-area -->
             
             {% if settings.logo_pos == 'below' %}{{ logo_html }}{% endif %}
             
         </div><!-- /.logo-area -->
     </div><!-- /#pageheader -->
-  
-
     
     {% capture extra_navigation_items %}
     {% if shop.customer_accounts_enabled %}
@@ -305,26 +222,14 @@ $(function() {
         </ul>
     {% endif %}
     {% endcapture %}
-        
-  <div id="main-nav" class="nav-row">
-        {% include 'main-navigation' with 'main-menu' %}
-        </div><!-- /#main-nav -->
-  		<div id="helpNavBar">
-          <div class="navHelp"><h6 style="margin:0%; line-height:120%;">Home</h6><p style="line-height:120%;">This will take you to the frontpage.</p></div>
-          <div class="navHelp"><h6 style="margin:0%; line-height:120%;">About Us</h6><p style="line-height:120%;">Know all about us here.</p></div>
-          <div class="navHelp"><h6 style="margin:0%; line-height:120%;">The Collective</h6><p style="line-height:120%;">Find our collection products here.</p></div>
-          <div class="navHelp"><h6 style="margin:0%; line-height:120%;">Products</h6><p style="line-height:120%;">This will take you to the frontpage.</p></div>
-          <div class="navHelp"><h6 style="margin:0%; line-height:120%;">News</h6><p style="line-height:120%;">Get up to date with our news here.</p></div>
-          <div class="navHelp"><h6 style="margin:0%; line-height:120%;">Register</h6><p style="line-height:120%;">Register to get more exclusive features.</p></div>
-  		</div>  
     
+    <div id="main-nav" class="nav-row">
+        {% include 'main-navigation' with 'main-menu' %}
+    </div><!-- /#main-nav -->
+    <button onmousedown="toggleOverlay()" style="position: absolute; right: 10px;">Help</button>
     <div id="content">
-      
-
-      
         {% unless settings.head_not_count == empty %}
         {% if settings.head_not_home_only == false or template == 'index' %}
-      	
         <div id="store-messages" class="messages-{{ settings.head_not_count.last }}">
             <div class="container cf">
             {% for i in (1..3) %}
@@ -361,7 +266,6 @@ $(function() {
                 {{ content_for_layout }}
             </div><!-- /.container -->
         {% endif %}
-      	 	
     </div><!-- /#content -->
     
   {% include 'footer' %}
