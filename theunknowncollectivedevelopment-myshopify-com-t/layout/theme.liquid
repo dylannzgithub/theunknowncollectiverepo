@@ -95,69 +95,12 @@ Shopify.money_format = '{{shop.money_format | replace: "'", '"'}}';
   
   
     {{ content_for_header }}
-
-<!-- START of Help Overlay within <head> -->
-	<!-- Style sheet for variables of the Help Overlay. -->
-	<style type="text/css">
-
-		<!-- Style of the actual overlay -->
-		div#overlay {
-			display: none;
-			z-index: 10;
-			background-color: black;
-			background: rgba(25, 25, 25, .5);
-			position: fixed;
-			width: 100%;
-			height: 100%;
-			top: 0px;
-			left: 0px;
-			text-align: center;
-		}
-
-		<!-- Style of the div, which is within the overlay, box containing the Help Overlay content -->
-		div#specialBox {
-			display: block;
-			position: relative;
-			z-index: 11;
-			margin: 75px auto 0px auto;
-			max-width: 1200px; 
-			max-height: 620px;
-			overflow:scroll;
-		}
-
-	</style>
-
-	<!-- The function that allows the toggling of the Help Overlay to work -->
-	<script type="text/javascript">
-	function toggleOverlay(){
-		var overlay = document.getElementById('overlay');
-		
-		if(overlay.style.display == "block"){
-			overlay.style.display = "none";
-		} else {
-			overlay.style.display = "block";
-		}
-	}
-	</script>
-<!-- END of Help Overlay within <head> -->
-	
+ 
+  
 </head>
 
 <body class="template-{{ template | split: '.' | first }}">
   <div id="pageheader">
-    
-    <!-- Start OVERLAY -->
-    	<div id="overlay">
-          	<button onmousedown="toggleOverlay()" style="position: fixed; top: 30px; right:5px;">Close</button> <!-- Button to close the overlay -->
-  			<div id="specialBox"> <!-- div containing content -->
-				<!-- Help content -->
-				<img src="{{ 'HelpOverLay1.png' | asset_url }}"/>             
-				<img src="{{ 'HelpBuying.png' | asset_url }}"/>  
-				<img src="{{ 'HelpCart.png' | asset_url }}"/>             
-				<br/>
-  			</div>
-		</div>
-	<!-- End OVERLAY -->    
     
     	
     
@@ -236,12 +179,7 @@ Shopify.money_format = '{{shop.money_format | replace: "'", '"'}}';
     <div id="main-nav" class="nav-row">
         {% include 'main-navigation' with 'main-menu' %}
     </div><!-- /#main-nav -->
-    
-	<!-- Start HELP BUTTON - The button that toggles the Help Overlay -->
-		<button onmousedown="toggleOverlay()" style="position: absolute; right: 10px;">Help</button>
-	<!-- End HELP BUTTON -->
-    
-	<div id="content">
+    <div id="content">
         {% unless settings.head_not_count == empty %}
         {% if settings.head_not_home_only == false or template == 'index' %}
         <div id="store-messages" class="messages-{{ settings.head_not_count.last }}">

@@ -89,10 +89,25 @@
             <div class="description user-content {% if settings.lightbox_imgs %}lightboximages{% endif %}">{{ product-detail.description }}</div>
         {% endif %}
         {% include 'social-sharing' %}
-    {% else %}
-  	<a class="more" href="{{ product_url }}">More Details &rarr;</a>
+  
+  
+    {% comment %} Dylan: A small change to change the "more info" to "customize this" when viewing customizable products {% endcomment %}
+  
+    {% elsif product.type == "Customizable" %}
+
+  
+  		<a class="more" href="{{ product_url }}">Customize this &rarr;</a> <!-- I added this line -->
+  
+  	{% else %}
+  
+    {% comment %} Dylan: A small change to change the "more info" to "customize this" when viewing customizable products  {% endcomment %}
+  
+  		<a class="more" href="{{ product_url }}">More Details &rarr;</a>
     {% endif %}
 </div>
+
+
+
 
 {% if template contains 'product' and settings.prod_desc_pos == 'below' and product_detail_in_block == false %}
     <div class="description user-content {% if settings.lightbox_imgs %}lightboximages{% endif %} padded-row">{{ product-detail.description }}</div>

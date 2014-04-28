@@ -1,0 +1,85 @@
+{% comment %} wrapped in an if to open our custom product-block-customizable page {% endcomment %}
+
+{% if product.type == "Customizable" %}
+
+	{% include 'product-block-customizable' %}
+
+{% else %}
+
+  {% comment %}
+  Example of use:
+  
+  {% assign product_collection = collection %}
+  {% include 'product-block' with product %}
+  
+  ALSO: Feel free to change the 'large' just below here to 'grande' if you require giant product images
+  {% endcomment %}
+  
+  {% assign product_block_image_size = 'large' %}
+  
+  {% if product_collection %}
+      {% capture product_url %}{{ product-block.url | within: product_collection }}{% endcapture %}
+  {% else %}
+      {% capture product_url %}{{ product-block.url }}{% endcapture %}
+  {% endif %}
+  
+  <div data-product-id="{{ product.id }}" class="product-block">
+      <div class="block-inner">
+          <div class="image-cont">
+            
+            {% comment %} Dylan: This is where a user clicks a product in a collection and the details and payment dropdown occurs  {% endcomment %}
+            
+              <a class="more-info" href="{{ product_url }}">
+                
+            {% comment %} Dylan: This is where a user clicks a product in a collection and the details and payment dropdown occurs  {% endcomment %}    
+                
+                  {{ product-block.featured_image | product_img_url: product_block_image_size | img_tag: product-block.featured_image.alt }}
+                  {% include 'product-label' with product-block %}
+              </a>
+              
+            
+            {% comment %} Dylan: This is where a user clicks a product in a collection and the details and payment dropdown occurs  {% endcomment %}
+            
+              <a class="hover-info more-info" href="{{ product_url }}">
+                
+            {% comment %} Dylan: This is where a user clicks a product in a collection and the details and payment dropdown occurs  {% endcomment %}    
+                
+                
+                  <div class="inner">
+                    <div class="innerer">
+                      <div class="title">{{ product-block.title }}</div>
+                      {% if settings.prod_hov_type contains 'full' %}<div>-</div>{% endif %}
+                      
+                      {% if product-block.compare_at_price_max > product.price %}
+                          <div class="reducedfrom"><span class="amount">{{ product-block.compare_at_price_max | money }}</span></div>
+                      {% endif %}
+                      <span class="price">
+                          {% if product-block.price_varies %}
+                              <span class="from">from</span>
+                          {% endif %}
+                          {{ product-block.price | money }}
+                      </span>
+                    </div>
+                  </div>
+                  {% unless settings.prod_hov_type == 'bottom-permanent' %}
+                      <div class="bg"></div>
+                  {% endunless %}
+              </a>
+          </div>
+      </div>
+      
+    
+    {% comment %} Dylan: This is where a user clicks a product in a collection and the details and payment dropdown occurs  {% endcomment %}
+    
+      {% assign product_detail_in_block = true %}
+      <div class="product-detail">
+          <div class="container inner cf">{% include 'product-detail' with product-block %}</div>
+      </div>
+  
+    {% comment %} Dylan: This is where a user clicks a product in a collection and the details and payment dropdown occurs  {% endcomment %}
+    
+  </div>
+
+{% endif %}
+
+{% comment %} wrapped in an if to open our custom product-block-customizable page {% endcomment %}

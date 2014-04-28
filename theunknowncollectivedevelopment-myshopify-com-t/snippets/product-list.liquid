@@ -4,7 +4,7 @@
 
 <div class="product-list">
   {% for product in product-list.products %}
-  	{% include 'product-block' with product %}
+  	{% include 'product-block' with product %} 
   {% endfor %}
   {% unless template contains 'index' %}
   	{% include 'product-list-placeholders' %}

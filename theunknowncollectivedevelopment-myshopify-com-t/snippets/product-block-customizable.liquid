@@ -1,0 +1,24 @@
+{% comment %}
+Example of use:
+
+{% assign product_collection = collection %}
+{% include 'product-block' with product %}
+
+ALSO: Feel free to change the 'large' just below here to 'grande' if you require giant product images
+{% endcomment %}
+
+{% assign product_block_image_size = 'large' %}
+
+{% if product_collection %}
+    {% capture product_url %}{{ product-block.url | within: product_collection }}{% endcapture %}
+{% else %}
+    {% capture product_url %}{{ product-block.url }}{% endcapture %}
+{% endif %}
+
+<div data-product-id="{{ product.id }}" class="product-block" href="{{ product_url }}">
+  
+  <a href="{{ product-block.url }}"> {{ product-block.featured_image | product_img_url: product_block_image_size | img_tag: product-block.featured_image.alt }} </a>
+  	
+  
+  
+</div>
