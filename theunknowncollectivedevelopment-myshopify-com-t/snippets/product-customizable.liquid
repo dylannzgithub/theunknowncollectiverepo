@@ -1,48 +1,48 @@
 {% comment %} Dylan: This is our copied class to display customizations on customizable products  {% endcomment %}
 
-{% comment %} Dara:  help overlay feature {% endcomment %}
-    <head>
-      <style>
-        div#overlay {
-          display: none;
-          z-index: 20;
-          background-color: black;
-          background: rgba(25, 25, 25, .5);
-          position: fixed;
-          width: 100%;
-          height: 100%;
-          top: 0px;
-          left: 0px;
-          text-align: center;
-        }
-        div#specialBox {
-          display: block;
-          position: relative;
-          z-index: 11;
-          top:100px;
-          background-color: white;
-          margin: 120px auto 0px auto;
-          max-width: 750px; 
-          max-height: 620px;
-          overflow:scroll;
-        }
-      </style>
-      {% comment %} END of sheet for the objects of the Help Overlay {% endcomment %}
-        
-      {% comment %} START of actual Help Overlay function {% endcomment %}  
-      <script type="text/javascript">
-      function toggleOverlay(){
-          var overlay = document.getElementById('overlay');
-          
-          if(overlay.style.display == "block"){
-              overlay.style.display = "none";
-          } else {
-              overlay.style.display = "block";
-          }
-      }
-      </script>
-    </head>
-{% comment %} Dara:   {% endcomment %}
+        {% comment %} Dara:  help overlay feature {% endcomment %}
+            <head>
+              <style>
+                div#overlay {
+                  display: none;
+                  z-index: 20;
+                  background-color: black;
+                  background: rgba(25, 25, 25, .5);
+                  position: fixed;
+                  width: 100%;
+                  height: 100%;
+                  top: 0px;
+                  left: 0px;
+                  text-align: center;
+                }
+                div#specialBox {
+                  display: block;
+                  position: relative;
+                  z-index: 11;
+                  top:100px;
+                  background-color: white;
+                  margin: 120px auto 0px auto;
+                  max-width: 750px; 
+                  max-height: 620px;
+                  overflow:scroll;
+                }
+              </style>
+              {% comment %} END of sheet for the objects of the Help Overlay {% endcomment %}
+                
+              {% comment %} START of actual Help Overlay function {% endcomment %}  
+              <script type="text/javascript">
+              function toggleOverlay(){
+                  var overlay = document.getElementById('overlay');
+                  
+                  if(overlay.style.display == "block"){
+                      overlay.style.display = "none";
+                  } else {
+                      overlay.style.display = "block";
+                  }
+              }
+              </script>
+            </head>
+ 			{% comment %} Dara:   {% endcomment %}
 
 
 <div itemscope itemtype="http://schema.org/Product">
@@ -52,29 +52,25 @@
     <meta itemprop="price" content="{{ product.price | money_without_currency | strip_html }}" />
   
 
-  {% comment %} Dylan: test here  {% endcomment %}
   
-  	A CHANGE TO TEST this is a customizable product page (seperate from regular product pages)!!!
   
-  {% comment %} Dylan: test here  {% endcomment %}
-  
-  {% comment %} Dara: START of Help button for toggle the Help Overlay{% endcomment %}  
-  
-    	<button onmousedown="toggleOverlay()" style="position: absolute; right: 10px;">Help</button>
-  
-  {% comment %} END of Help button for toggle the Help Overlay{% endcomment %} 
-  
-  {% comment %} Dara: START of Help Overlay within the page {% endcomment %}  
-  
-    	<div id="overlay">
-          	<button onmousedown="toggleOverlay()" style="position: fixed; top: 120px; right:5px;">Close</button>
-  			<div id="specialBox">
-               
-              <br/>
-  			</div>
-		</div>
-  
-	{% comment %} END of Help Overlay within the page {% endcomment %} 
+          {% comment %} Dara: START of Help button for toggle the Help Overlay{% endcomment %}  
+          
+                <button onmousedown="toggleOverlay()" style="position: absolute; right: 10px;">Help</button>
+          
+          {% comment %} END of Help button for toggle the Help Overlay{% endcomment %} 
+          
+          {% comment %} Dara: START of Help Overlay within the page {% endcomment %}  
+          
+                <div id="overlay">
+                    <button onmousedown="toggleOverlay()" style="position: fixed; top: 120px; right:5px;">Close</button>
+                    <div id="specialBox">
+                       
+                      <br/>
+                    </div>
+                </div>
+          
+            {% comment %} END of Help Overlay within the page {% endcomment %} 
 
   
     {% if product.available %}
