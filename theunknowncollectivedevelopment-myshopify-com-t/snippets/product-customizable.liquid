@@ -54,6 +54,11 @@
 
   
   
+  
+  
+  
+  
+  
           {% comment %} Dara: START of Help button for toggle the Help Overlay{% endcomment %}  
           
                 <button onmousedown="toggleOverlay()" style="position: absolute; right: 10px;">Help</button>
@@ -103,6 +108,8 @@
               {% endif %}
             </div>
             
+          
+          
             {% if collection %}
             <div class="social-area">
                 <span class="nextprev">
@@ -117,7 +124,42 @@
             </div>
             {% endif %}
         </div>
+      
+      
     </div>
+  
+  
+  
+  {% comment %} Dylan: display materials code start {% endcomment %}
+  
+        <div align="center" style="color: red">
+        
+          {% for collection in product.collections %}
+          
+              {% for product in collection.all_products %}
+          
+                  {% if product.tags contains 'material' %}
+            <div style="margin: 5px; display:inline; ">
+            
+              {{ product.title }}
+              <img src="{{ product.featured_image | product_img_url }}"/>
+              
+              
+              
+            </div>
+          
+                  {% endif %}
+          
+              {% endfor %}
+          
+          {% endfor %}
+        
+        </div>
+      <hr>
+  
+  {% comment %} Dylan: display materials code end {% endcomment %}
+  
+  
     
     {% if tag_html contains 'a' %}
         <div class="tags nav-row spaced-row hidden">
@@ -137,6 +179,8 @@
     </div><!-- /.product-detail -->
  
     
+  {% comment %} Dylan: Get rid of "you may also like" section 
+  
     {% assign show_related = false %}
     {% capture related_markup %}
     <div id="related-products" class="container cf">
@@ -188,7 +232,23 @@
                 {% endfor %}
             {% elsif settings.prod_rel_meth == 'tag-handle' %}
                 {% for tag in product.tags %}
+          
+          
+          
+                  {% if product.tag contains 'material' %}
+                  
+                  {% else %}
+                  
                     {% if tag contains 'meta-related-product-' %}{% assign show_related = true %}{% endif %}
+                  
+                  {% endif %}
+          
+                    
+          
+          
+          
+          
+          
                 {% endfor %}
                 {% assign is_tag_related_product = true %}
                 <script id="product-block-template" type="text/template">
@@ -238,4 +298,9 @@
     </div><!-- /#related-products -->
     {% endcapture %}
     {% if show_related %}{{ related_markup }}{% endif %}
+  
+  
+  Dylan: display materials code end {% endcomment %}  
+  
+  
 </div><!-- /.product-page-layout -->

@@ -1,0 +1,19 @@
+{% unless template contains 'index' %}
+    {% assign product_collection = product-list %}
+{% endunless %}
+
+  
+<div class="product-list">
+  
+  {% for product in product-list.products %}
+  
+    {% if product.tags contains 'Garment' %}
+      {% include 'product-block' with product %} 
+    {% endif %}
+  
+  {% endfor %}
+  
+  {% unless template contains 'index' %}
+  	{% include 'product-list-placeholders' %}
+  {% endunless %}
+</div>

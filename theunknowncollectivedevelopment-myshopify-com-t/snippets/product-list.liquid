@@ -1,12 +1,38 @@
-{% unless template contains 'index' %}
-    {% assign product_collection = product-list %}
-{% endunless %}
 
-<div class="product-list">
-  {% for product in product-list.products %}
-  	{% include 'product-block' with product %} 
-  {% endfor %}
+{% comment %} class wrapped in an if to redirect to custom page, for purpose of displaying products by tag... {% endcomment %}
+
+{% if collection.title == "CustomizableCollection" %}
+
+	{% include 'product-list-customizable' %}
+
+{% else %}
+
   {% unless template contains 'index' %}
-  	{% include 'product-list-placeholders' %}
+      {% assign product_collection = product-list %}
   {% endunless %}
-</div>
+  
+  <div class="product-list">
+    {% for product in product-list.products %}
+    
+      {% comment %} Dylan: Added an if to avoid adding materials to product lists which get displayed in multiple places SEEMS TO WORK{% endcomment %}
+      {% if product.tags contains 'material' %}
+                
+        {% comment %} Dylan: Deliberatly do nothing to avoid displaying Material products {% endcomment %}
+    
+      {% else %}
+    
+        {% include 'product-block' with product %}
+    
+      {% endif %}
+      {% comment %} Dylan: Added an if to avoid adding materials to product lists which get displayed in multiple places SEEMS TO WORK{% endcomment %}
+    
+    {% endfor %}
+    
+    {% unless template contains 'index' %}
+       {% include 'product-list-placeholders' %}
+    {% endunless %}
+  </div>
+
+{% endif %}
+
+{% comment %} class wrapped in an if to redirect to custom page, for purpose of displaying products by tag... {% endcomment %}

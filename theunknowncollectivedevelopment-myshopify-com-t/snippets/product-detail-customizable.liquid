@@ -34,17 +34,6 @@
     {% endif %}
 </div>
 
-{% comment %} Dylan: customizations could go here? {% endcomment %}
-
-<div>
-
-  <h2> CHanges begin here </h2>
-  
-
-
-</div>
-
-{% comment %} Dylan: customizations could go here? {% endcomment %}
 
 <div class="detail layout-column-half-right">
     {% include 'product-label' with product-detail %}
@@ -65,9 +54,193 @@
   	</h2>
     {% if settings.prod_show_vendor %}<p>{{ settings.text_vendor }} {{ product-detail.vendor | link_to_vendor }}</p>{% endif %}
     
+  
+  
     <div class="product-form section">
         {% if product-detail.available %}
             <form class="form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{ product-detail.id }}">
+              
+              {% comment %} Dylan: experimenting with adding extra info properties to customization form....! {% endcomment %}
+              
+              
+              <div> {% comment %} Dylan: Our div {% endcomment %}
+                
+                
+                <p class="field">
+                  
+                  <select id="single-pocket" name="properties[Single Pocket]">
+                    <option value="-">-</option>
+                    <option value="Material1">Material1</option>
+                    <option value="Material2">Material2</option>
+                    <option value="Material3">Material3</option>
+                    <option value="Material4">Material4</option>
+                    <option value="Material5">Material5</option>
+                  </select>
+                  
+                  <label>Single Pocket</label>
+                </p>
+              
+              <p class="field">
+                  
+                  <select id="double-pocket" name="properties[Double Pocket]">
+                    <option value="-">-</option>
+                    <option value="Material1">Material1</option>
+                    <option value="Material2">Material2</option>
+                    <option value="Material3">Material3</option>
+                    <option value="Material4">Material4</option>
+                    <option value="Material5">Material5</option>
+                  </select>
+                
+                
+                <label>Double Pocket</label>
+                </p>
+              
+              <p class="field">
+                
+                <select id="oversized-pocket" name="properties[Oversized Pocket]">
+                  <option value="-">-</option>
+                  <option value="Material1">Material1</option>
+                  <option value="Material2">Material2</option>
+                  <option value="Material3">Material3</option>
+                  <option value="Material4">Material4</option>
+                  <option value="Material5">Material5</option>
+                </select>
+                
+                <label>Oversized Pocket</label>
+              </p>
+              
+             {% if product.tags contains 'sleeveless' %}
+              
+                {% comment %} Dylan: Deliberatly do nothing to avoid displaying sleeve customizations to sleeveless garments {% endcomment %}
+              
+              
+             {% else %}
+              
+                      <p class="field">
+                        
+                        <select id="single-sleeve" name="properties[Single Sleeve]">
+                          <option value="-">-</option>
+                          <option value="Material1">Material1</option>
+                          <option value="Material2">Material2</option>
+                          <option value="Material3">Material3</option>
+                          <option value="Material4">Material4</option>
+                          <option value="Material5">Material5</option>
+                        </select>
+                        
+                        <label>Single Sleeve</label>
+                      </p>
+                      
+                      <p class="field">
+                        
+                        <select id="both-sleeves" name="properties[Both Sleeves]">
+                          <option value="-">-</option>
+                          <option value="Material1">Material1</option>
+                          <option value="Material2">Material2</option>
+                          <option value="Material3">Material3</option>
+                          <option value="Material4">Material4</option>
+                          <option value="Material5">Material5</option>
+                        </select>
+                        
+                        <label>Both Sleeves</label>
+                      </p>
+                      
+                      <p class="field">
+                        
+                        <select id="sleeves-cuffs" name="properties[Sleeves Cuffs]">
+                          <option value="-">-</option>
+                          <option value="Material1">Material1</option>
+                          <option value="Material2">Material2</option>
+                          <option value="Material3">Material3</option>
+                          <option value="Material4">Material4</option>
+                          <option value="Material5">Material5</option>
+                        </select>
+                        
+                        <label>Sleeves Cuffs</label>
+                      </p>
+              
+
+              
+              {% endif %}
+              
+              <p class="field">
+                
+                <select id="double-stripes" name="properties[Double Stripes]">
+                  <option value="-">-</option>
+                  <option value="Material1">Material1</option>
+                  <option value="Material2">Material2</option>
+                  <option value="Material3">Material3</option>
+                  <option value="Material4">Material4</option>
+                  <option value="Material5">Material5</option>
+                </select>
+                
+                <label>Double Stripes</label>
+              </p>
+              
+              <p class="field">
+                
+                <select id="back-panel" name="properties[Back Panel]">
+                  <option value="-">-</option>
+                  <option value="Material1">Material1</option>
+                  <option value="Material2">Material2</option>
+                  <option value="Material3">Material3</option>
+                  <option value="Material4">Material4</option>
+                  <option value="Material5">Material5</option>
+                </select>
+                
+                <label>Back Panel</label>
+              </p>
+              
+              <p class="field">
+                
+                <select id="front-panel" name="properties[Front Panel]">
+                  <option value="-">-</option>
+                  <option value="Material1">Material1</option>
+                  <option value="Material2">Material2</option>
+                  <option value="Material3">Material3</option>
+                  <option value="Material4">Material4</option>
+                  <option value="Material5">Material5</option>
+                </select>
+                
+                <label>Front Panel</label>
+              </p>
+              
+              <p class="field">
+                
+                <select id="half-chest-panel" name="properties[Half Chest Panel]">
+                  <option value="-">-</option>
+                  <option value="Material1">Material1</option>
+                  <option value="Material2">Material2</option>
+                  <option value="Material3">Material3</option>
+                  <option value="Material4">Material4</option>
+                  <option value="Material5">Material5</option>
+                </select>
+                
+                <label>Half Chest Panel</label>
+              </p>
+              
+              <p class="field">
+                
+                <select id="drop-tail" name="properties[Drop Tail]">
+                  <option value="-">-</option>
+                  <option value="Material1">Material1</option>
+                  <option value="Material2">Material2</option>
+                  <option value="Material3">Material3</option>
+                  <option value="Material4">Material4</option>
+                  <option value="Material5">Material5</option>
+                </select>
+                
+                <label>Drop Tail</label>
+              </p>
+              
+              <p class="field">
+                <label>Specific Design</label>
+                <textarea id="specific-design" name="properties[Specific Design]"></textarea>
+              </p>
+              
+             </div>   {% comment %} Dylan: Our div {% endcomment %}
+              {% comment %} Dylan: experimenting with adding extra info properties to customization form....! {% endcomment %}
+              
+              
                 <div class="input-row">
             		<label for="quantity">{{ settings.text_prod_qty }}</label>
             		<input id="quantity" class="select-on-focus" name="quantity" value="1" size="2" />

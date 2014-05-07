@@ -89,6 +89,8 @@
         {% comment %} Find out if we have any tags to show, and the categories to use {% endcomment %}
         {% assign show_normal_filter = false %}
         {% assign tag_cats = '' %}
+      
+      
         {% for tag in collection.all_tags %}
             {% if tag contains 'meta-filter-' %}
                 {% assign cat_name = tag | remove: 'meta-filter-' | split: '-' | first %}
@@ -99,8 +101,13 @@
                 {% unless tag contains 'meta-' %}{% assign show_normal_filter = true %}{% endunless %}
             {% endif %}
         {% endfor %}
+      
+      
         
         {% assign tag_cats_split = tag_cats | split: ',' %}
+      
+      
+      {% comment %} DYLAN gets rid of grid or stream viewing options
         
         <div class="filters">
             {% if show_normal_filter %}
@@ -115,7 +122,7 @@
           
           
             
-          {% comment %} DYLAN
+          
           
             {% if settings.coll_gridstream_mode contains 'both' %}
           	  <span class="view-as">
@@ -124,14 +131,13 @@
                 <a id="view-as-stream" {% if settings.coll_gridstream_mode contains 'stream' %}class="active"{% endif %} href="#">Stream <div class="fluff"></div></a>
 	          </span>
             {% endif %}
-          
-          {% endcomment %}
-          
-          
+   
         </div><!-- /.filters -->
+      
+      {% endcomment %}
         
       
-      {% comment %} DYLAN
+      {% comment %} DYLAN gets rid of share
       
         <div class="social-area">
             <a href="#" class="tags" data-toggle-target=".tags.nav-row.social">{{ settings.text_share }} <span class="state">+</span></a>
@@ -208,9 +214,12 @@
 {% else %}
     {% if settings.coll_in_col %}<div class="container">{% endif %}
     
+
     <div class="collection-listing{% if settings.coll_gridstream_mode contains 'stream' %}-stream{% endif %} cf">
       {% include 'product-list' with collection %} 
     </div>
+
+
     
     {% if settings.coll_in_col %}</div>{% endif %}
 {% endif %}
