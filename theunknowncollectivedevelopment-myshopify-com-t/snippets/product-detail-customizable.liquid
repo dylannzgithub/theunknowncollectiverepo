@@ -1,7 +1,135 @@
+{% comment %} Dara {% endcomment %}
+
+<script type="text/javascript">
+  var allCustoms = [];
+  var allNames = [];
+  
+  
+  function setup(){
+      {% for image in product.images %} 
+      	{% if image != product.featured_image %}
+        	var fullsrc = "{{ image.src | product_img_url: 'master'}}";
+         	var customType = findCustomNameOnly(fullsrc);
+         	addingToCustomList(customType);
+			addFilenameToList(fullsrc);
+         {% endif %}
+      {% endfor %} 
+    }
+  
+  function findCustomNameOnly(imgSrc){
+		var firstSplit = imgSrc.split("/products/");
+		var secondSplit = firstSplit[1].split("?");
+		var thirdSplit = secondSplit[0].split(".");
+      	var customType = (thirdSplit[0]);
+      	return customType;
+    }
+          
+	function addFilenameToList(imgSrc){
+		var firstSplit = imgSrc.split("/products/");
+		var secondSplit = firstSplit[1].split("?");
+      	allNames.push(secondSplit[0]);
+    }
+  
+  function addingToCustomList(aName){
+      var match = new Boolean(0);
+      for( var i = 0; i < allCustoms.length; i++){
+        if(allCustoms[i] == aName){
+         	match = Boolean(1);
+        }
+      }
+      if(match == Boolean(0)){
+        	allCustoms.push(aName);
+       }
+      
+	}
+    
+	
+	function findMaterialOnly(filename){	
+		var pieces = filename.split(".");
+      	var option = pieces[1];
+      	return option;
+    }
+  
+    function findSrc(filename){ 
+      	var output = "";
+      	{% for image in product.images %} 
+        	var fullsrc = "{{ image.src | product_img_url: 'master'}}";
+         	if(fullsrc.indexOf(filename) > -1){
+           		output = fullsrc;
+         	}
+      	{% endfor %} 
+        return output;
+    }
+         
+    function addParts(selected){
+		var selected = document.getElementById(selected);
+      	var fullsrc = findSrc(selected.value);
+        var num = (selected.id).split("matList");
+      	var imgTagId = "addOnPic"+num[1];
+      	document.getElementById(imgTagId).src=fullsrc;
+    }
+  
+  
+  
+ window.onload = function() {
+   setup();
+   for(var i = 0; i < allCustoms.length; i++){
+     var cName = "custom" + i;
+     var selectOb = "matList" + i;
+     document.getElementById(cName).innerHTML = allCustoms[i];
+     var x = document.getElementById(selectOb)
+     x.style.display = "block";
+     var noneOp = document.createElement("option");
+     noneOp.text = " - ";
+     x.add(noneOp);
+     
+     for(var y in allNames){
+       var z = allNames[y].split(".");
+       if(allCustoms[i] == z[0]){
+         var option = document.createElement("option");
+     	 option.text = z[1];
+         option.value = allNames[y];
+     	 x.add(option);
+         
+       } 
+     }
+   }
+   
+	$('.main-image').height(document.getElementById("featImage").offsetHeight);
+   
+ }
+</script>
+
+<style>
+  .materialList{
+    display:none;
+  }
+  .main-image>img{
+    display:block;
+  	position:absolute;
+    top:0;
+  	left:0;
+  	right:0;
+  	margin:auto;
+  }
+</style>
+
+
+{% comment %} Dara {% endcomment %}
+
+
+
+
+
+
 {% comment %} You can change 'large' to 'grande' for larger gallery images {% endcomment %}
 {% assign gallery_main_image_size = 'large' %}
 <div class="gallery layout-column-half-left {% if product-detail.images.size > 1 %}has-thumbnails{% endif %}">
     <div class="main-image">
+      
+      
+      {% comment %} LEAVBE THOS OUT
+      
         {% if product_detail_in_block %}
         <a href="{{ product_url }}">
             {% if settings.coll_gridstream_mode contains 'grid' %}
@@ -15,6 +143,24 @@
             <img src="{{ product-detail.featured_image | product_img_url: gallery_main_image_size }}" alt="{{ product-detail.featured_image.alt | escape }}"/>
         </a>
         {% endif %}
+      
+      {% endcomment %}
+      
+      
+      <img id="featImage" src="{{ product-detail.featured_image | product_img_url: gallery_main_image_size }}" alt="{{ product-detail.featured_image.alt | escape }}"/>
+      <img id="addOnPic0" src=""/> 
+      <img id="addOnPic1" src=""/> 
+      <img id="addOnPic2" src=""/> 
+      <img id="addOnPic3" src=""/> 
+      <img id="addOnPic4" src=""/> 
+      <img id="addOnPic5" src=""/> 
+      <img id="addOnPic6" src=""/> 
+      <img id="addOnPic7" src=""/> 
+      <img id="addOnPic8" src=""/> 
+      <img id="addOnPic9" src=""/> 
+      <img id="addOnPic10" src=""/> 
+      <img id="addOnPic11" src=""/> 
+      
     </div>
     
     {% if product-detail.images.size > 1 %}
@@ -57,6 +203,50 @@
   
   
     <div class="product-form section">
+      
+      
+      <div>
+          <p id="custom0"></p>
+          <select class="materialList" id="matList0" onchange="addParts(this.id)"></select>
+          
+          <p id="custom1"></p>
+          <select class="materialList" id="matList1" onchange="addParts(this.id)"></select>
+          
+          <p id="custom2"></p>
+          <select class="materialList" id="matList2" onchange="addParts(this.id)"></select>
+          
+          <p id="custom3"></p>
+          <select class="materialList" id="matList3" onchange="addParts(this.id)"></select>
+          
+          <p id="custom4"></p>
+          <select class="materialList" id="matList4" onchange="addParts(this.id)"></select>
+          
+          <p id="custom5"></p>
+          <select class="materialList" id="matList5" onchange="addParts(this.id)"></select>
+          
+          <p id="custom6"></p>
+          <select class="materialList" id="matList6" onchange="addParts(this.id)"></select>
+          
+          <p id="custom7"></p>
+          <select class="materialList" id="matList7" onchange="addParts(this.id)"></select>
+          
+          <p id="custom8"></p>
+          <select class="materialList" id="matList8" onchange="addParts(this.id)"></select>
+          
+          <p id="custom9"></p>
+          <select class="materialList" id="matList9" onchange="addParts(this.id)"></select>
+          
+          <p id="custom10"></p>
+          <select class="materialList" id="matList10" onchange="addParts(this.id)"></select>
+          
+          <p id="custom11"></p>
+          <select class="materialList" id="matList11" onchange="addParts(this.id)"></select>
+	<div>
+      
+      
+      
+      
+      
         {% if product-detail.available %}
             <form class="form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{ product-detail.id }}">
               
@@ -66,29 +256,59 @@
               <div> {% comment %} Dylan: Our div {% endcomment %}
                 
                 
+                
+                
+                
                 <p class="field">
                   
                   <select id="single-pocket" name="properties[Single Pocket]">
-                    <option value="-">-</option>
-                    <option value="Material1">Material1</option>
-                    <option value="Material2">Material2</option>
-                    <option value="Material3">Material3</option>
-                    <option value="Material4">Material4</option>
-                    <option value="Material5">Material5</option>
+                    <option value="-">    -     </option>
+                    
+                    {% for collection in product.collections %}
+          
+                      {% for product in collection.all_products %}
+                  
+                          {% if product.tags contains 'material' %}
+                    
+                    
+                    		
+                    <option value="{{ product.title }}">{{ product.title }}</option>
+                  
+                          {% endif %}
+                  
+                      {% endfor %}
+                  
+                  {% endfor %}}
+                    
                   </select>
                   
                   <label>Single Pocket</label>
                 </p>
+                
+                
+                
+                
+                
               
               <p class="field">
                   
                   <select id="double-pocket" name="properties[Double Pocket]">
                     <option value="-">-</option>
-                    <option value="Material1">Material1</option>
-                    <option value="Material2">Material2</option>
-                    <option value="Material3">Material3</option>
-                    <option value="Material4">Material4</option>
-                    <option value="Material5">Material5</option>
+                    {% for collection in product.collections %}
+          
+                      {% for product in collection.all_products %}
+                  
+                          {% if product.tags contains 'material' %}
+                    
+                    
+                    		
+                    <option value="{{ product.title }}">{{ product.title }}</option>
+                  
+                          {% endif %}
+                  
+                      {% endfor %}
+                  
+                  {% endfor %}}
                   </select>
                 
                 
@@ -99,11 +319,21 @@
                 
                 <select id="oversized-pocket" name="properties[Oversized Pocket]">
                   <option value="-">-</option>
-                  <option value="Material1">Material1</option>
-                  <option value="Material2">Material2</option>
-                  <option value="Material3">Material3</option>
-                  <option value="Material4">Material4</option>
-                  <option value="Material5">Material5</option>
+                  {% for collection in product.collections %}
+          
+                      {% for product in collection.all_products %}
+                  
+                          {% if product.tags contains 'material' %}
+                    
+                    
+                    		
+                    <option value="{{ product.title }}">{{ product.title }}</option>
+                  
+                          {% endif %}
+                  
+                      {% endfor %}
+                  
+                  {% endfor %}}
                 </select>
                 
                 <label>Oversized Pocket</label>
@@ -120,11 +350,21 @@
                         
                         <select id="single-sleeve" name="properties[Single Sleeve]">
                           <option value="-">-</option>
-                          <option value="Material1">Material1</option>
-                          <option value="Material2">Material2</option>
-                          <option value="Material3">Material3</option>
-                          <option value="Material4">Material4</option>
-                          <option value="Material5">Material5</option>
+                          {% for collection in product.collections %}
+          
+                            {% for product in collection.all_products %}
+                        
+                                {% if product.tags contains 'material' %}
+                          
+                          
+                                  
+                          <option value="{{ product.title }}">{{ product.title }}</option>
+                        
+                                {% endif %}
+                        
+                            {% endfor %}
+                        
+                        {% endfor %}}
                         </select>
                         
                         <label>Single Sleeve</label>
@@ -134,11 +374,21 @@
                         
                         <select id="both-sleeves" name="properties[Both Sleeves]">
                           <option value="-">-</option>
-                          <option value="Material1">Material1</option>
-                          <option value="Material2">Material2</option>
-                          <option value="Material3">Material3</option>
-                          <option value="Material4">Material4</option>
-                          <option value="Material5">Material5</option>
+                          {% for collection in product.collections %}
+          
+                            {% for product in collection.all_products %}
+                        
+                                {% if product.tags contains 'material' %}
+                          
+                          
+                                  
+                          <option value="{{ product.title }}">{{ product.title }}</option>
+                        
+                                {% endif %}
+                        
+                            {% endfor %}
+                        
+                        {% endfor %}}
                         </select>
                         
                         <label>Both Sleeves</label>
@@ -148,11 +398,21 @@
                         
                         <select id="sleeves-cuffs" name="properties[Sleeves Cuffs]">
                           <option value="-">-</option>
-                          <option value="Material1">Material1</option>
-                          <option value="Material2">Material2</option>
-                          <option value="Material3">Material3</option>
-                          <option value="Material4">Material4</option>
-                          <option value="Material5">Material5</option>
+                          {% for collection in product.collections %}
+          
+                            {% for product in collection.all_products %}
+                        
+                                {% if product.tags contains 'material' %}
+                          
+                          
+                                  
+                          <option value="{{ product.title }}">{{ product.title }}</option>
+                        
+                                {% endif %}
+                        
+                            {% endfor %}
+                        
+                        {% endfor %}}
                         </select>
                         
                         <label>Sleeves Cuffs</label>
@@ -166,11 +426,21 @@
                 
                 <select id="double-stripes" name="properties[Double Stripes]">
                   <option value="-">-</option>
-                  <option value="Material1">Material1</option>
-                  <option value="Material2">Material2</option>
-                  <option value="Material3">Material3</option>
-                  <option value="Material4">Material4</option>
-                  <option value="Material5">Material5</option>
+                  {% for collection in product.collections %}
+          
+                      {% for product in collection.all_products %}
+                  
+                          {% if product.tags contains 'material' %}
+                    
+                    
+                    		
+                    <option value="{{ product.title }}">{{ product.title }}</option>
+                  
+                          {% endif %}
+                  
+                      {% endfor %}
+                  
+                  {% endfor %}}
                 </select>
                 
                 <label>Double Stripes</label>
@@ -180,11 +450,21 @@
                 
                 <select id="back-panel" name="properties[Back Panel]">
                   <option value="-">-</option>
-                  <option value="Material1">Material1</option>
-                  <option value="Material2">Material2</option>
-                  <option value="Material3">Material3</option>
-                  <option value="Material4">Material4</option>
-                  <option value="Material5">Material5</option>
+                  {% for collection in product.collections %}
+          
+                      {% for product in collection.all_products %}
+                  
+                          {% if product.tags contains 'material' %}
+                    
+                    
+                    		
+                    <option value="{{ product.title }}">{{ product.title }}</option>
+                  
+                          {% endif %}
+                  
+                      {% endfor %}
+                  
+                  {% endfor %}}
                 </select>
                 
                 <label>Back Panel</label>
@@ -194,11 +474,21 @@
                 
                 <select id="front-panel" name="properties[Front Panel]">
                   <option value="-">-</option>
-                  <option value="Material1">Material1</option>
-                  <option value="Material2">Material2</option>
-                  <option value="Material3">Material3</option>
-                  <option value="Material4">Material4</option>
-                  <option value="Material5">Material5</option>
+                  {% for collection in product.collections %}
+          
+                      {% for product in collection.all_products %}
+                  
+                          {% if product.tags contains 'material' %}
+                    
+                    
+                    		
+                    <option value="{{ product.title }}">{{ product.title }}</option>
+                  
+                          {% endif %}
+                  
+                      {% endfor %}
+                  
+                  {% endfor %}}
                 </select>
                 
                 <label>Front Panel</label>
@@ -208,11 +498,21 @@
                 
                 <select id="half-chest-panel" name="properties[Half Chest Panel]">
                   <option value="-">-</option>
-                  <option value="Material1">Material1</option>
-                  <option value="Material2">Material2</option>
-                  <option value="Material3">Material3</option>
-                  <option value="Material4">Material4</option>
-                  <option value="Material5">Material5</option>
+                  {% for collection in product.collections %}
+          
+                      {% for product in collection.all_products %}
+                  
+                          {% if product.tags contains 'material' %}
+                    
+                    
+                    		
+                    <option value="{{ product.title }}">{{ product.title }}</option>
+                  
+                          {% endif %}
+                  
+                      {% endfor %}
+                  
+                  {% endfor %}}
                 </select>
                 
                 <label>Half Chest Panel</label>
@@ -222,19 +522,29 @@
                 
                 <select id="drop-tail" name="properties[Drop Tail]">
                   <option value="-">-</option>
-                  <option value="Material1">Material1</option>
-                  <option value="Material2">Material2</option>
-                  <option value="Material3">Material3</option>
-                  <option value="Material4">Material4</option>
-                  <option value="Material5">Material5</option>
+                  {% for collection in product.collections %}
+          
+                      {% for product in collection.all_products %}
+                  
+                          {% if product.tags contains 'material' %}
+                    
+                    
+                    		
+                    <option value="{{ product.title }}">{{ product.title }}</option>
+                  
+                          {% endif %}
+                  
+                      {% endfor %}
+                  
+                  {% endfor %}}
                 </select>
                 
                 <label>Drop Tail</label>
               </p>
               
-              <p class="field">
-                <label>Specific Design</label>
+              <p class="field">            
                 <textarea id="specific-design" name="properties[Specific Design]"></textarea>
+                <label>Specific Design</label>
               </p>
               
              </div>   {% comment %} Dylan: Our div {% endcomment %}

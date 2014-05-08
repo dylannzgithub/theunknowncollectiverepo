@@ -22,7 +22,7 @@
                   top:100px;
                   background-color: white;
                   margin: 120px auto 0px auto;
-                  max-width: 750px; 
+                  max-width: 950px; 
                   max-height: 620px;
                   overflow:scroll;
                 }
@@ -70,6 +70,8 @@
                 <div id="overlay">
                     <button onmousedown="toggleOverlay()" style="position: fixed; top: 120px; right:5px;">Close</button>
                     <div id="specialBox">
+                      
+                      <img src="{{ 'CustomizeHelp1.png' | asset_url }}">
                        
                       <br/>
                     </div>
@@ -96,6 +98,9 @@
     
     <div class="container">
         <div class="page-header cf">
+          
+          
+           {%comment%} Dylan: leave this out 
             <div class="filters">
                 {% if tag_html contains 'a' %}
                 <span class="tags">
@@ -107,7 +112,8 @@
               <span class="see-more">See more: {{ product.type | link_to_type }}</span>
               {% endif %}
             </div>
-            
+           {%endcomment%} 
+          
           
           
             {% if collection %}
@@ -130,16 +136,23 @@
   
   
   
+  
+  
+  
+  
+  
+  
+  
   {% comment %} Dylan: display materials code start {% endcomment %}
   
-        <div align="center" style="color: red">
+  <div align="center" style="padding-top:10px; padding-bottom:10px; height:135px; overflow-y: hidden; overflow-x: auto; white-space: nowrap;">
         
           {% for collection in product.collections %}
           
               {% for product in collection.all_products %}
           
                   {% if product.tags contains 'material' %}
-            <div style="margin: 5px; display:inline; ">
+            <div style="margin:5px; display:inline;">
             
               {{ product.title }}
               <img src="{{ product.featured_image | product_img_url }}"/>
@@ -154,10 +167,19 @@
           
           {% endfor %}
         
-        </div>
-      <hr>
-  
+  </div>
+  <hr>
   {% comment %} Dylan: display materials code end {% endcomment %}
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
     
@@ -179,6 +201,22 @@
     </div><!-- /.product-detail -->
  
     
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   {% comment %} Dylan: Get rid of "you may also like" section 
   
     {% assign show_related = false %}
@@ -300,7 +338,7 @@
     {% if show_related %}{{ related_markup }}{% endif %}
   
   
-  Dylan: display materials code end {% endcomment %}  
+{% endcomment %} 
   
   
 </div><!-- /.product-page-layout -->
