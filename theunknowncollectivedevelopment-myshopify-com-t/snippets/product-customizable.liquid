@@ -1,48 +1,5 @@
 {% comment %} Dylan: This is our copied class to display customizations on customizable products  {% endcomment %}
 
-        {% comment %} Dara:  help overlay feature {% endcomment %}
-            <head>
-              <style>
-                div#overlay {
-                  display: none;
-                  z-index: 20;
-                  background-color: black;
-                  background: rgba(25, 25, 25, .5);
-                  position: fixed;
-                  width: 100%;
-                  height: 100%;
-                  top: 0px;
-                  left: 0px;
-                  text-align: center;
-                }
-                div#specialBox {
-                  display: block;
-                  position: relative;
-                  z-index: 11;
-                  top:100px;
-                  background-color: white;
-                  margin: 120px auto 0px auto;
-                  max-width: 950px; 
-                  max-height: 620px;
-                  overflow:scroll;
-                }
-              </style>
-              {% comment %} END of sheet for the objects of the Help Overlay {% endcomment %}
-                
-              {% comment %} START of actual Help Overlay function {% endcomment %}  
-              <script type="text/javascript">
-              function toggleOverlay(){
-                  var overlay = document.getElementById('overlay');
-                  
-                  if(overlay.style.display == "block"){
-                      overlay.style.display = "none";
-                  } else {
-                      overlay.style.display = "block";
-                  }
-              }
-              </script>
-            </head>
- 			{% comment %} Dara:   {% endcomment %}
 
 
 <div itemscope itemtype="http://schema.org/Product">
@@ -51,33 +8,7 @@
     <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
     <meta itemprop="price" content="{{ product.price | money_without_currency | strip_html }}" />
   
-
-  
-  
-  
-  
-  
-  
-  
-          {% comment %} Dara: START of Help button for toggle the Help Overlay{% endcomment %}  
-          
-                <button onmousedown="toggleOverlay()" style="position: absolute; right: 10px;">Help</button>
-          
-          {% comment %} END of Help button for toggle the Help Overlay{% endcomment %} 
-          
-          {% comment %} Dara: START of Help Overlay within the page {% endcomment %}  
-          
-                <div id="overlay">
-                    <button onmousedown="toggleOverlay()" style="position: fixed; top: 120px; right:5px;">Close</button>
-                    <div id="specialBox">
-                      
-                      <img src="{{ 'CustomizeHelp1.png' | asset_url }}">
-                       
-                      <br/>
-                    </div>
-                </div>
-          
-            {% comment %} END of Help Overlay within the page {% endcomment %} 
+       
 
   
     {% if product.available %}
@@ -96,90 +27,84 @@
     {% endif %}
     {% endcapture %}
     
-    <div class="container">
-        <div class="page-header cf">
+  
+            {% comment %}
+              <div class="container">
+                  <div class="page-header cf">
+                      {% if collection %}
+                      <div class="social-area">
+                          <span class="nextprev">
+                          {% if collection.previous_product %}
+                              <a class="control-prev" href="{{ collection.previous_product }}">Previous</a>
+                          {% endif %}
+                          {% if collection.previous_product and collection.next_product %} / {% endif %}
+                          {% if collection.next_product %}
+                              <a class="control-next" href="{{ collection.next_product }}">Next</a>
+                          {% endif %}
+                          </span>
+                      </div>
+                      {% endif %}
+                  </div>
+              </div>
+            {% endcomment %}
+  
+  
+  
+  
+      
+{% comment %} Dylan: display materials code start {% endcomment %} 
+  
+  
+  <div style="margin: 30px 0px 0px 0px"> 
+    <div class="anyClass" style="margin-left:auto; margin-right:auto;">
+      <ul>
           
-          
-           {%comment%} Dylan: leave this out 
-            <div class="filters">
-                {% if tag_html contains 'a' %}
-                <span class="tags">
-                    <a href="#" data-toggle-target=".tags.nav-row">{{ settings.text_tags }} <span class="state">+</span></a>
-                </span>
-                {% endif %}
+            {% for collection in product.collections %}
             
-              {% if settings.prod_show_type %}
-              <span class="see-more">See more: {{ product.type | link_to_type }}</span>
-              {% endif %}
-            </div>
-           {%endcomment%} 
-          
-          
-          
-            {% if collection %}
-            <div class="social-area">
-                <span class="nextprev">
-                {% if collection.previous_product %}
-                    <a class="control-prev" href="{{ collection.previous_product }}">Previous</a>
-                {% endif %}
-                {% if collection.previous_product and collection.next_product %} / {% endif %}
-                {% if collection.next_product %}
-                    <a class="control-next" href="{{ collection.next_product }}">Next</a>
-                {% endif %}
-                </span>
-            </div>
-            {% endif %}
-        </div>
-      
-      
+                {% for product in collection.all_products %}
+            
+                    {% if product.tags contains 'material' %}
+              
+                      <li >
+                              
+                              
+                        <div style="margin-right:35px; margin-left:35px; margin-bottom:30px; height:130px">
+                                  
+                            <img src="{{ product.featured_image | product_img_url }}"/>
+                            <br/>
+                            {{ product.title }}
+                        </div>
+                              
+                      </li>
+               
+            
+                    {% endif %}
+            
+                {% endfor %}
+            
+            {% endfor %}
+        
+      </ul> 
     </div>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  {% comment %} Dylan: display materials code start {% endcomment %}
-  
-  <div align="center" style="padding-top:10px; padding-bottom:10px; height:135px; overflow-y: hidden; overflow-x: auto; white-space: nowrap;">
-        
-          {% for collection in product.collections %}
-          
-              {% for product in collection.all_products %}
-          
-                  {% if product.tags contains 'material' %}
-            <div style="margin:5px; display:inline;">
-            
-              {{ product.title }}
-              <img src="{{ product.featured_image | product_img_url }}"/>
-              
-              
-              
-            </div>
-          
-                  {% endif %}
-          
-              {% endfor %}
-          
-          {% endfor %}
-        
+    
+    <div style="margin: 0 auto; width:305px; ">
+    
+      <button class="prev" style="float: left"><<</button>
+      <button class="next" style="float: right">>></button>
+      
+    </div>  
+    
   </div>
-  <hr>
+  
+  
+  
+  <hr style="margin:0px 0px 15px 0px;">
+ 
+  
+  
   {% comment %} Dylan: display materials code end {% endcomment %}
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
+ 
   
   
     
@@ -199,146 +124,29 @@
         {% assign product_detail_in_block = false %}
         {% include 'product-detail' with product %}
     </div><!-- /.product-detail -->
- 
-    
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  {% comment %} Dylan: Get rid of "you may also like" section 
-  
-    {% assign show_related = false %}
-    {% capture related_markup %}
-    <div id="related-products" class="container cf">
-        <h4 class="align-centre">{{ settings.text_rel_title }}</h4>
-      
-        <div class="collection-listing related-{{ settings.prod_rel_meth }} cf row-spacing">
-            {% if settings.prod_rel_meth == 'collection' %}
-                {% assign product_collection = collection %}
-          		{% unless product_collection %}{% assign need_new_collection = true %}{% else %}{% assign need_new_collection = false %}{% endunless %}
-                {% if need_new_collection or product_collection.handle == 'all' or product_collection.handle contains 'frontpage' %}
-                    {% for coll in product.collections %}
-                        {% unless coll.handle == 'all' or coll.handle contains 'frontpage' %}
-          					{% assign product_collection = coll %}
-                        {% endunless %}
-                    {% endfor %}
-                {% endif %}
-                {% assign product_image_size_norm = true %}
-                {% assign prod_rel_count = 0 %}
-                {% assign prod_rel_limit_int = settings.prod_rel_limit | plus: 0 %}
-                {% assign prod_rel_limit_plus_one = prod_rel_limit_int | plus: 1 %}
-                {% paginate product_collection.products by prod_rel_limit_plus_one %}
-                    {% for relprod in product_collection.products %}
-                        {% if relprod.handle != product.handle and prod_rel_limit_int > prod_rel_count %}
-                            {% assign prod_rel_count = prod_rel_count | plus: 1 %}
-                            {% assign show_related = true %}
-                            {% include 'product-block' with relprod %}
-                        {% endif %}
-                    {% endfor %}
-                {% endpaginate %}
-            {% elsif settings.prod_rel_meth == 'tag-coll' %}
-                {% for tag in product.tags %}
-                    {% if tag contains 'meta-related-collection-' %}
-                        {% assign product_collection_handle = tag | remove: 'meta-related-collection-' %}
-                        {% assign product_collection = collections[product_collection_handle] %}
-                        {% assign product_image_size_norm = true %}
-                        {% assign prod_rel_count = 0 %}
-                        {% assign prod_rel_limit_int = settings.prod_rel_limit | plus: 0 %}
-                        {% assign prod_rel_limit_plus_one = prod_rel_limit_int | plus: 1 %}
-                        {% paginate product_collection.products by prod_rel_limit_plus_one %}
-                            {% for relprod in product_collection.products %}
-                                {% if relprod.handle != product.handle and prod_rel_limit_int > prod_rel_count %}
-                                    {% assign prod_rel_count = prod_rel_count | plus: 1 %}
-                                    {% assign show_related = true %}
-                                    {% include 'product-block' with relprod %}
-                                {% endif %}
-                            {% endfor %}
-                        {% endpaginate %}
-                    {% endif %}
-                {% endfor %}
-            {% elsif settings.prod_rel_meth == 'tag-handle' %}
-                {% for tag in product.tags %}
-          
-          
-          
-                  {% if product.tag contains 'material' %}
-                  
-                  {% else %}
-                  
-                    {% if tag contains 'meta-related-product-' %}{% assign show_related = true %}{% endif %}
-                  
-                  {% endif %}
-          
-                    
-          
-          
-          
-          
-          
-                {% endfor %}
-                {% assign is_tag_related_product = true %}
-                <script id="product-block-template" type="text/template">
-                    {% include 'product-block' with relprod %}
-                </script>
-                <script>
-                //Load in related products via ajax
-                  
-                $(function(){
-                    Shopify.money_format = {{ shop.money_format | json }};
-                    var related_tags = {{ product.tags | json }};
-                    var i;
-                    var tags_count = 0;
-                    for(i=0; i<related_tags.length; i++) {
-                        if(related_tags[i].indexOf('meta-related-product-') >= 0) {
-                            tags_count++;
-                            if(tags_count > {{ settings.prod_rel_limit }}) {
-                                break;
-                            }
-                            var rel_handle = related_tags[i].substring('meta-related-product-'.length);
-                            $.getJSON('/products/'+rel_handle+'.js', function(data) {
-                                //Add this data to the page
-                                window.productJSON.push(data);
-                                //Build template
-                                var $template = $($('#product-block-template').html());
-                                $template.find('.productlabel, .product-detail').remove();
-                                $template.find('a.more-info').attr({ href: data.url, title: data.title });
-                                $template.find('.image-cont img').attr('src', data.featured_image.replace(/(\.jpg|\.png|\.jpeg|\.gif)/, '_medium$1')).attr('alt', data.title);
-                                $template.find('.title').html(data.title);
-                                $template.find('.price').html(Shopify.formatMoney(data.price));
-                                if(data.price < data.compare_at_price_max) {
-                                    var prevHTML = '<div class="reducedfrom"><span class="was">Was</span> <span class="amount">AMOUNT</span></div>';
-                                    $template.find('.block-inner .price').before(prevHTML.replace('AMOUNT', Shopify.formatMoney(data.compare_at_price_max)));
-                                }
-                                //Show
-                                $template.appendTo('#related-products .collection-listing').imagesLoaded(function(){
-                                    $template.find('.image-cont').animate({opacity: 1}, 200);
-                                });
-                            });
-                        }
-                    }
-                });
-                  
-                </script>
-            {% endif %}
-        </div>
-    </div><!-- /#related-products -->
-    {% endcapture %}
-    {% if show_related %}{{ related_markup }}{% endif %}
-  
-  
-{% endcomment %} 
-  
+
   
 </div><!-- /.product-page-layout -->
+
+
+
+
+
+
+
+
+
+{% comment %}  to be moved later {% endcomment %}
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="{{ 'jcarousellite.js' | asset_url }}"></script>
+		<script>
+          $( document ).ready(function() {
+			$(function() {
+			$(".anyClass").jCarouselLite({
+				btnNext: ".next",
+				btnPrev: ".prev"
+			});
+		});
+          });
+		</script>

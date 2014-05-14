@@ -120,6 +120,77 @@
 
 
 
+{% comment %} Dara: START of Help button for toggle the Help Overlay{% endcomment %}  
+          
+                <button onmousedown="toggleOverlay()" style="position: absolute; right: 1%;">Help</button>
+          
+          {% comment %} END of Help button for toggle the Help Overlay{% endcomment %} 
+          
+          {% comment %} Dara: START of Help Overlay within the page {% endcomment %}  
+          
+                <div id="overlay">
+                    <button onmousedown="toggleOverlay()" style="position: fixed; top: 120px; right:5px;">Close</button>
+                    <div id="specialBox">
+                      
+                      <img src="{{ 'CustomizeHelp1.png' | asset_url }}">
+                       
+                      <br/>
+                    </div>
+                </div>
+          
+{% comment %} END of Help Overlay within the page {% endcomment %} 
+
+
+  <style>
+                div#overlay {
+                  display: none;
+                  z-index: 20;
+                  background-color: black;
+                  background: rgba(25, 25, 25, .5);
+                  position: fixed;
+                  width: 100%;
+                  height: 100%;
+                  top: 0px;
+                  left: 0px;
+                  text-align: center;
+                }
+                div#specialBox {
+                  display: block;
+                  position: relative;
+                  z-index: 11;
+                  top:100px;
+                  background-color: white;
+                  margin: 120px auto 0px auto;
+                  max-width: 950px; 
+                  max-height: 620px;
+                  overflow:scroll;
+                }
+              </style>
+              {% comment %} END of sheet for the objects of the Help Overlay {% endcomment %}
+                
+              {% comment %} START of actual Help Overlay function {% endcomment %}  
+              
+              
+              <script type="text/javascript">
+              function toggleOverlay(){
+                  var overlay = document.getElementById('overlay');
+                  
+                  if(overlay.style.display == "block"){
+                      overlay.style.display = "none";
+                  } else {
+                      overlay.style.display = "block";
+                  }
+              }
+              </script>
+  
+
+
+
+
+
+
+
+
 
 
 {% comment %} You can change 'large' to 'grande' for larger gallery images {% endcomment %}
@@ -128,23 +199,7 @@
     <div class="main-image">
       
       
-      {% comment %} LEAVBE THOS OUT
       
-        {% if product_detail_in_block %}
-        <a href="{{ product_url }}">
-            {% if settings.coll_gridstream_mode contains 'grid' %}
-                <img src="{{ 'blank.gif' | asset_url }}" data-src="{{ product-detail.featured_image | product_img_url: gallery_main_image_size }}" alt="{{ product-detail.featured_image.alt | escape }}"/>
-            {% else %}
-                <img src="{{ product-detail.featured_image | product_img_url: gallery_main_image_size }}" alt="{{ product-detail.featured_image.alt | escape }}"/>
-            {% endif %}
-        </a>
-        {% else %}
-        <a class="shows-lightbox" href="{{ product-detail.featured_image | product_img_url: 'master' }}" title="{{ product-detail.featured_image.alt | escape }}">
-            <img src="{{ product-detail.featured_image | product_img_url: gallery_main_image_size }}" alt="{{ product-detail.featured_image.alt | escape }}"/>
-        </a>
-        {% endif %}
-      
-      {% endcomment %}
       
       
       <img id="featImage" src="{{ product-detail.featured_image | product_img_url: gallery_main_image_size }}" alt="{{ product-detail.featured_image.alt | escape }}"/>
@@ -163,21 +218,7 @@
       
     </div>
     
-    {% if product-detail.images.size > 1 %}
-    <div class="thumbnails">
-        {% if product_detail_in_block %}{{ settings.text_imgs }}{% endif %}
-        
-        {% for image in product-detail.images %}
-            {% if product_detail_in_block %} / {% endif %}
-            <a {% if forloop.first %} class="active" {% endif %} title="{{ image.alt }}" href="{{ image | product_img_url: gallery_main_image_size }}" data-full-size-url="{{ image | product_img_url: 'master' }}">
-            {% unless product_detail_in_block %}
-                <img src="{{ image | product_img_url: 'thumb' }}" alt="{{ image.alt }}"/></a>
-            {% else %}
-                {{ forloop.index }}</a>
-            {% endunless %}
-        {% endfor %}
-    </div>
-    {% endif %}
+    
 </div>
 
 
@@ -603,3 +644,9 @@
   addProductJSON({{ product-detail | json }});
 </script>
 {% endunless %}
+      
+      
+      
+      
+      
+   
